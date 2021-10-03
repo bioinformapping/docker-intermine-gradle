@@ -4,6 +4,7 @@ LABEL maintainer="Ank"
 ENV JAVA_HOME="/usr/lib/jvm/default-jvm"
 ENV MEM_OPTS="-Xmx2g -Xms1g"
 ENV GRADLE_OPTS="-server $MEM_OPTS -XX:+UseParallelGC -XX:SoftRefLRUPolicyMSPerMB=1 -XX:MaxHeapFreeRatio=99 -Dorg.gradle.daemon=false"
+ENV JAVA_OPTS="-Xmx500m -Xms256m"
 ENV JAVA_OPTS="$JAVA_OPTS -Dorg.apache.el.parser.SKIP_IDENTIFIER_CHECK=true $MEM_OPTS -XX:+UseParallelGC -XX:SoftRefLRUPolicyMSPerMB=1 -XX:MaxHeapFreeRatio=99"
 ENV TOMCAT_MAJOR=8 \
     TOMCAT_VERSION=8.5.3 \
@@ -28,7 +29,6 @@ RUN apk del curl && \
 COPY ./configs/* /opt/tomcat/conf/
 COPY ./configs/web_context.xml /opt/tomcat/webapps/manager/META-INF/context.xml
 
-ENV JAVA_OPTS="-Xmx500m -Xms256m"
 WORKDIR /opt/tomcat
 EXPOSE 8080
 ENTRYPOINT ["./bin/catalina.sh", "run"]
