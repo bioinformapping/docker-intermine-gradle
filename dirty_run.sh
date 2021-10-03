@@ -1,0 +1,1 @@
+docker-compose -f local.docker-compose.yml up 2>&1 > docker-dirty.log

@@ -52,7 +52,17 @@ if [ -d ${MINE_NAME:-biotestmine} ] && [ ! -z "$(ls -A ${MINE_NAME:-biotestmine}
 else
     # echo "$(date +%Y/%m/%d-%H:%M) Clone ${MINE_NAME:-biotestmine}" #>> /home/intermine/intermine/build.progress
     echo "$(date +%Y/%m/%d-%H:%M) Clone ${MINE_NAME:-biotestmine}"
-    git clone ${MINE_REPO_URL:-https://github.com/intermine/biotestmine} ${MINE_NAME:-biotestmine}
+    git clone --branch test ${MINE_REPO_URL:-https://github.com/intermine/biotestmine} ${MINE_NAME:-biotestmine}
+    # git-lfs pull
+    if [ ! -z ${MINE_NAME} ]
+    then
+        # cd ${MINE_NAME:-biotestmine}
+        # git-lfs pull
+        # cd ..
+        echo $GRADLE_OPTS
+        cp -R $MINE_NAME/data/ /home/intermine/intermine/ && \
+        find /home/intermine/intermine/data/ -name "*.gz" -exec gunzip -f {} \;
+    fi
     echo "$(date +%Y/%m/%d-%H:%M) Update keyword_search.properties to use http://solr" #>> /home/intermine/intermine/build.progress
     sed -i 's/localhost/'${SOLR_HOST:-solr}'/g' ./${MINE_NAME:-biotestmine}/dbmodel/resources/keyword_search.properties
 fi
@@ -125,26 +135,26 @@ else
 fi
 
 # Copy data
-if [ -d /home/intermine/intermine/data ]; then
-    echo "$(date +%Y/%m/%d-%H:%M) found user data directory"
-    if [ !  -n "$(find /home/intermine/intermine/data -maxdepth 0 -type d -empty 2>/dev/null)" ]; then
-        for f in *.tar.gz; do
-            tar xzf "$f" && rm "$f"
-        done
-        cd /home/intermine/intermine
-    fi
-else
-    echo "$(date +%Y/%m/%d-%H:%M) No user data directory found"
-    if [ ! -d /home/intermine/intermine/data/malaria ]; then
-        echo "$(date +%Y/%m/%d-%H:%M) Copy malria-data to ~/data" #>> /home/intermine/intermine/build.progress
-        mkdir -p /home/intermine/intermine/data/
-        cp /home/intermine/intermine/biotestmine/data/malaria-data.tar.gz /home/intermine/intermine/data/
-        cd /home/intermine/intermine/data/
-        tar -xf malaria-data.tar.gz
-        rm malaria-data.tar.gz
-        cd /home/intermine/intermine
-    fi
-fi
+# if [ -d /home/intermine/intermine/data ]; then
+#     echo "$(date +%Y/%m/%d-%H:%M) found user data directory"
+#     if [ !  -n "$(find /home/intermine/intermine/data -maxdepth 0 -type d -empty 2>/dev/null)" ]; then
+#         for f in *.tar.gz; do
+#             tar xzf "$f" && rm "$f"
+#         done
+#         cd /home/intermine/intermine
+#     fi
+# else
+#     echo "$(date +%Y/%m/%d-%H:%M) No user data directory found"
+#     if [ ! -d /home/intermine/intermine/data/malaria ]; then
+#         echo "$(date +%Y/%m/%d-%H:%M) Copy malria-data to ~/data" #>> /home/intermine/intermine/build.progress
+#         mkdir -p /home/intermine/intermine/data/
+#         cp /home/intermine/intermine/biotestmine/data/malaria-data.tar.gz /home/intermine/intermine/data/
+#         cd /home/intermine/intermine/data/
+#         tar -xf malaria-data.tar.gz
+#         rm malaria-data.tar.gz
+#         cd /home/intermine/intermine
+#     fi
+# fi
 
 
 echo "$(date +%Y/%m/%d-%H:%M) Connect and create Postgres databases" #>> /home/intermine/intermine/build.progress

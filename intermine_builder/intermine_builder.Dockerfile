@@ -60,8 +60,9 @@ RUN cpanm --force Ouch \
 
 RUN mkdir /home/intermine && mkdir /home/intermine/intermine
 RUN chmod -R 777 /home/intermine
+RUN apk add --no-cache gzip git-lfs
 
-ENV MEM_OPTS="-Xmx1g -Xms500m"
+ENV MEM_OPTS="-Xmx64G -Xms8G"
 ENV GRADLE_OPTS="-server ${MEM_OPTS} -XX:+UseParallelGC -XX:SoftRefLRUPolicyMSPerMB=1 -XX:MaxHeapFreeRatio=99 -Dorg.gradle.daemon=false -Duser.home=/home/intermine"
 ENV HOME="/home/intermine"
 ENV USER_HOME="/home/intermine"
