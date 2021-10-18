@@ -15,7 +15,7 @@ services:
       # - ./data/mine/[PUT_YOUR_MINE_NAME_HERE]:/home/intermine/intermine/[PUT_YOUR_MINE_NAME_HERE]
       # - ./data/mine/biotestmine:/home/intermine/intermine/biotestmine
       - ./data/mine/gomapmine:/home/intermine/intermine/gomapmine
-      - ./tmp/data:/home/intermine/intermine/data
+      - /home/azureuser/github/gomapmine/data:/home/intermine/intermine/data
     environment:
       - MINE_NAME=${MINE_NAME:-biotestmine}
       - MINE_REPO_URL=${MINE_REPO_URL:-}
