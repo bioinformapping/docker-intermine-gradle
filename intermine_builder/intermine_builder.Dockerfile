@@ -63,7 +63,7 @@ RUN chmod -R 777 /home/intermine
 RUN apk add --no-cache gzip git-lfs
 
 ENV MEM_OPTS="-Xmx64G -Xms8G"
-ENV GRADLE_OPTS="-server ${MEM_OPTS} -XX:+UseParallelGC -XX:SoftRefLRUPolicyMSPerMB=1 -XX:MaxHeapFreeRatio=99 -Dorg.gradle.daemon=false -Duser.home=/home/intermine"
+ENV GRADLE_OPTS="-server ${MEM_OPTS} -XX:+UseParallelGC -XX:SoftRefLRUPolicyMSPerMB=1 -XX:MaxHeapFreeRatio=99 -Dorg.gradle.daemon=false -Duser.home=/home/intermine -Dorg.gradle.parallel=true"
 ENV HOME="/home/intermine"
 ENV USER_HOME="/home/intermine"
 ENV GRADLE_USER_HOME="/home/intermine/.gradle"

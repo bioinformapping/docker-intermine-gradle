@@ -1,22 +1,22 @@
 #!/bin/bash
 
-if [ -d ${MINE_NAME:-biotestmine} ] && [ ! -z "$(ls -A ${MINE_NAME:-biotestmine})" ] && [ ! $FORCE_MINE_BUILD ]; then
-    echo "$(date +%Y/%m/%d-%H:%M) Mine already exists"
-    echo "$(date +%Y/%m/%d-%H:%M) Gradle: build webapp"
-    cd /home/intermine/intermine
-    cd ${MINE_NAME:-biotestmine}
-    ./gradlew cargoDeployRemote
-    sleep 60
-    ./gradlew cargoRedeployRemote  --stacktrace
-    exit 0
-fi
+# if [ -d ${MINE_NAME:-biotestmine} ] && [ ! -z "$(ls -A ${MINE_NAME:-biotestmine})" ] && [ ! $FORCE_MINE_BUILD ]; then
+#     echo "$(date +%Y/%m/%d-%H:%M) Mine already exists"
+#     echo "$(date +%Y/%m/%d-%H:%M) Gradle: build webapp"
+#     cd /home/intermine/intermine
+#     cd ${MINE_NAME:-biotestmine}
+#     ./gradlew cargoDeployRemote
+#     sleep 60
+#     ./gradlew cargoRedeployRemote  --stacktrace
+#     exit 0
+# fi
 
 set -e
 
 cd /home/intermine/intermine
 
 # Empty log
-echo "" > /home/intermine/intermine/build.progress
+# echo "" > /home/intermine/intermine/build.progress
 
 # Build InterMine if any of the envvars are specified.
 if [ ! -z ${IM_REPO_URL} ] || [ ! -z ${IM_REPO_BRANCH} ]; then
@@ -39,6 +39,7 @@ if [ ! -z ${IM_REPO_URL} ] || [ ! -z ${IM_REPO_BRANCH} ]; then
 
     cd /home/intermine/intermine
 fi
+
 
 
 echo "Starting mine build"
@@ -134,6 +135,8 @@ else
     sed -i 's/dump="true"/dump="false"/g' /home/intermine/intermine/${MINE_NAME:-biotestmine}/project.xml
 fi
 
+
+
 # Copy data
 # if [ -d /home/intermine/intermine/data ]; then
 #     echo "$(date +%Y/%m/%d-%H:%M) found user data directory"
@@ -193,6 +196,7 @@ psql -U postgres -h ${PGHOST:-postgres} -c "GRANT ALL PRIVILEGES ON DATABASE \"u
 
 
 cd ${MINE_NAME:-biotestmine}
+
 
 echo "$(date +%Y/%m/%d-%H:%M) Running project_build script"
 ./project_build -b -T localhost /home/intermine/intermine/dump/dump

@@ -16,6 +16,7 @@ services:
       # - ./data/mine/biotestmine:/home/intermine/intermine/biotestmine
       - ./data/mine/gomapmine:/home/intermine/intermine/gomapmine
       - ./tmp/data:/home/intermine/intermine/data
+      # - /mnt/docker-intermine-gradle/build-new.sh:/home/intermine/build.sh
     environment:
       - MINE_NAME=${MINE_NAME:-biotestmine}
       - MINE_REPO_URL=${MINE_REPO_URL:-}
@@ -27,7 +28,6 @@ services:
       - postgres
       - solr
       - tomcat
-
   postgres:
     container_name: intermine_postgres
     build:
